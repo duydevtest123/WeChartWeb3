@@ -43,7 +43,7 @@ parentPort.on('message', (msg) => {
 });
 
 // intialize db connection
-mongoose.connect(`mongodb://localhost:27017/charting_${process.env.CHAIN_ID}`, {
+mongoose.connect(configDB.url, {
     autoIndex: false,
     useNewUrlParser: true,
     useUnifiedTopology: true

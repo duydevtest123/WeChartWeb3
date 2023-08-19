@@ -66,6 +66,7 @@ async function findPrices( pair, from, to, recordsCount, resolution ){
 async function findLastPrice( pair, from, to ){
     if( !pair || !from ) return null;
 
+    console.log("findLastPrice findOne")
     let record = await HistoryPrice.findOne(
         { 
           pair: UtilsAddresses.toCheckSum(pair), 
@@ -78,6 +79,7 @@ async function findLastPrice( pair, from, to ){
 
 async function findPrice( pair ){
     if( !pair ) return null;
+    console.log("findPrice findOne")
     let record = await HistoryPrice.findOne(
         { 
           pair: UtilsAddresses.toCheckSum(pair), 

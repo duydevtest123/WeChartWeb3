@@ -10,6 +10,7 @@ class TokenHistory {
         let tokenHistory = this.cache.getTokenHistory( new RegExp(`/${pair}/i`) );
         if(!tokenHistory){
 
+            console.log("TokenHistoryModel findOne start", pair)
             let s = Date.now();
             tokenHistory = await TokenHistoryModel
             .findOne( { pair: pair } )
@@ -17,6 +18,8 @@ class TokenHistory {
             .lean()
             .exec();
             //console.log(`\t\t[LOADED HISTORY] ${pair} [${(Date.now() - s)/1000}]`);
+            console.log("TokenHistoryModel findOne response", tokenHistory)
+
             if(!tokenHistory) return null;
 
             this.cache.setHistory( pair, tokenHistory );
@@ -24,6 +27,7 @@ class TokenHistory {
         return tokenHistory;
     }
     async loadAllPairs(){
+        console.log("loadAllPairs")
         let allHistories = await TokenHistoryModel.find()
         .select({ 'token0.contract': 1, 'token1.contract': 1, pair: 1, router: 1, reserve0: 1, reserve1: 1, mainToken: 1 })
         .lean()
@@ -36,6 +40,7 @@ class TokenHistory {
         return allHistories;
     }
     async getPairWithMainTokens( token ){
+        console.log("getPairWithMainTokens")
         return await TokenHistoryModel.find(
             {
                 $or: [
@@ -59,6 +64,7 @@ class TokenHistory {
         )
     }
     async getPairWithMainToken( token ){
+        console.log("getPairWithMainToken")
         return await TokenHistoryModel.findOne(
             {
                 $or: [

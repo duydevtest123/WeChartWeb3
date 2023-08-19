@@ -217,7 +217,9 @@ class Scraper {
 
         if(!token0 || !token1 ) return console.log('\t[MISSING TOKENS]', pairAdd, hash);
 
+        console.log("start get tokenHistory pairAdd", pairAdd)
         let tokenHistory = await this.tokenHistories.getTokenHistory( pairAdd );
+        console.log("start get tokenHistory response tokenHistory", tokenHistory)
 
         console.log(`[TIME][${blockNumber}][RETRIVED TOKENS HISTORIES]`, pairAdd, (Date.now()-time)/1000 );
         time = Date.now();

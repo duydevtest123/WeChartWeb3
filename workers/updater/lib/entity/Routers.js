@@ -15,6 +15,7 @@ class Router {
         let routerCached = this.cache.getRouter( routerAdd );
         if( !routerCached ){
             let s = Date.now();
+            
             let router = await Routers.findOne({contract: routerAdd}).lean().exec();
             //console.log(`\t\t[LOADED ROUTER] ${routerAdd} [${(Date.now() - s)/1000}]`);
             if(!router){

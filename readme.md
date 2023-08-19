@@ -35,6 +35,7 @@ The `price scraper` listens for the latest swap made to blockchain, based on the
 
 	- If you **don't** want it to **restart on crash**
 		- `npm run scraper`
+		- Run the scraper `pm2 start npm --name "scraper" -- run scraper`
 
 
 

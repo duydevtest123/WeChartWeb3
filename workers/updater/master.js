@@ -31,6 +31,7 @@ let callbacks = {
 for( let i = 0; i < workersCount; i ++ ){
     let worker = new Worker(workerPath, { workerData: { ID: i } });
     worker.on('message', (msg) => { 
+        console.log("worker recerive message")
         if( msg.type && callbacks[msg.type] ){
             if( msg.data ) callbacks[msg.type](...msg.data);
             else callbacks[msg.type]()
@@ -44,11 +45,13 @@ for( let i = 0; i < workersCount; i ++ ){
 
 // find worker with lowest load of work
 function workerWithLowestLoad(){
+    console.log("workerWithLowestLoad")
     let keys = Object.keys(workerLoad);
     let sortedWorkers = keys.sort( ( id1, id2 ) => workerLoad[id1] > workerLoad[id2] ? 1 : -1 );
     return sortedWorkers[0];
 }
 const sendNewPairToWorkers = ( hash, pair, eventsSwap, eventsSync, blockNumber ) => {
+    console.log("sendNewPairToWorkers")
     let workerId = 0;
     if( pairToWorker[pair] ) workerId = pairToWorker[pair];
     else {
@@ -63,6 +66,7 @@ const sendNewPairToWorkers = ( hash, pair, eventsSwap, eventsSync, blockNumber )
     })
 }
 function toggleWorkersBulkUpdate(){
+    console.log("toggleWorkersBulkUpdate")
     for( let i = 0; i < workersCount; i ++ ){
         workers[i].postMessage({
             type: 'TOGGLE_BULK'
@@ -71,6 +75,7 @@ function toggleWorkersBulkUpdate(){
 }
 
 async function scrapeBlock( blockNumber, pairsInfo ){
+    console.log("scrapeBlock")
     scraping = true;
     console.log('[SCRAPING BLOCK]', blockNumber, new Date().toLocaleTimeString() );
     blocksProgress[blockNumber] = { updated: [], complete: false, inserted: Date.now()/1000 };
@@ -106,12 +111,13 @@ async function scrapeBlock( blockNumber, pairsInfo ){
 }
 
 ( async () => {
-
+    
     setInterval( () => { // check every 50ms if can scrape a new block from the queue
         if( !scrapingQueue.length ) return; // if no block in queue return
         if( scraping ) return; // if already scraping another block return
         let blockToScrape = scrapingQueue.shift();
         console.log('[SCRPING INTERVAL]', scrapingQueue.length );
+        console.log("scrapeBlock run loop item")
         scrapeBlock( blockToScrape, scrapingQueueInfos[blockToScrape] );
     }, 50);
 
@@ -138,5 +144,6 @@ async function scrapeBlock( blockNumber, pairsInfo ){
         onNewReserve,
         onNewBlockScraped
     )
+    console.log("hook2_end")
 
 })();

@@ -30,8 +30,10 @@ async function listenReserves(
             let start = Date.now();
             console.log('[SCRAPING CB][NEW]', number);
             logInFile(`[SCRAPING BLOCK][NEW] ${number} ${new Date().toLocaleTimeString()}:${Math.floor(Date.now()/100% 100)}`)
+            console.log("onBlockReservesScraped starts")
             await onBlockReservesScraped(number, pairsInfos);
             console.log('[SCRAPED BLOCK][NEW][CB]', number, ( Date.now() - start )/1000 );
+            console.log("hook_2")
         }
     );
     listener.start();
